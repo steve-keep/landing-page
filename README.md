@@ -36,3 +36,4 @@ You can easily host this landing page for free using GitHub Pages.
 
 4.  **View Your Site:**
     *   GitHub will provide you with a URL for your live site (e.g., `https://your-username.github.io/your-repository-name/`). It may take a few minutes for the site to become available.
+    *   Once deployed, you can add the final URL to this README for easy access. Your live site URL will be: [https://your-username.github.io/your-repository-name/](https://your-username.github.io/your-repository-name/)
