@@ -14,9 +14,13 @@ This is a simple landing page that displays the last 5 results, next 5 matches, 
 1.  **Get an API Key:**
     *   Go to [https://www.football-data.org/](https://www.football-data.org/) and register for a free API key.
 
-2.  **Add Your API Key:**
-    *   Open the `index.html` file in your browser.
-    *   Go to the "Settings" tab.
+2.  **Run the Application:**
+    *   This is a static website, but to avoid potential browser security issues with API requests from local files, you should serve it from a local web server.
+    *   If you have Python installed, you can easily do this by running the following command in the project's root directory: `python -m http.server`
+    *   Then, open your browser and go to `http://localhost:8000`.
+
+3.  **Add Your API Key:**
+    *   Once the page is loaded, go to the "Settings" tab.
     *   Paste your API key into the input field and click "Save".
 
 ## Deployment to GitHub Pages
