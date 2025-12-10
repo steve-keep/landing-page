@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Landing Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'burnley')" id="defaultOpen">Burnley FC</button>
+    </div>
+
+    <div id="burnley" class="tabcontent">
+        <h3>Burnley FC</h3>
+        <div id="burnley-data">
+            <h4>Last 5 Results</h4>
+            <ul id="burnley-results"></ul>
+            <h4>Next 5 Matches</h4>
+            <ul id="burnley-matches"></ul>
+            <h4>Premier League Table</h4>
+            <table id="premier-league-table"></table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
