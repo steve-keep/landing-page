@@ -15,17 +15,49 @@ function openTab(evt, tabName) {
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
 
-// IMPORTANT: Replace 'YOUR_API_KEY' with your actual API key from football-data.org
-// WARNING: Do not expose your API key in a public-facing application.
-// For production environments, it is recommended to use a backend proxy to keep your API key secure.
-const API_KEY = 'YOUR_API_KEY';
 const BURNLEY_ID = 328;
 
 const burnleyResults = document.getElementById('burnley-results');
 const burnleyMatches = document.getElementById('burnley-matches');
 const premierLeagueTable = document.getElementById('premier-league-table');
+const apiKeyInput = document.getElementById('api-key');
+const saveApiKeyButton = document.getElementById('save-api-key');
+
+function getApiKey() {
+  return localStorage.getItem('apiKey');
+}
+
+function saveApiKey() {
+  const apiKey = apiKeyInput.value;
+  localStorage.setItem('apiKey', apiKey);
+  alert('API Key saved!');
+  fetchBurnleyData(); // Refresh data after saving new key
+}
+
+function loadApiKey() {
+    const savedKey = getApiKey();
+    if (savedKey) {
+        apiKeyInput.value = savedKey;
+    }
+}
+
+saveApiKeyButton.addEventListener('click', saveApiKey);
 
 function fetchBurnleyData() {
+    const API_KEY = getApiKey();
+    if (!API_KEY) {
+        const errorMessage = '<li>Please add your API key in the Settings tab.</li>';
+        burnleyResults.innerHTML = errorMessage;
+        burnleyMatches.innerHTML = errorMessage;
+        premierLeagueTable.innerHTML = `<tr><td>${errorMessage}</td></tr>`;
+        return;
+    }
+
+    // Clear previous data/errors
+    burnleyResults.innerHTML = '';
+    burnleyMatches.innerHTML = '';
+    premierLeagueTable.innerHTML = '';
+
     // Fetch last 5 results
     fetch(`https://api.football-data.org/v4/teams/${BURNLEY_ID}/matches?status=FINISHED&limit=5`, {
         headers: {
@@ -34,6 +66,9 @@ function fetchBurnleyData() {
     })
     .then(response => response.json())
     .then(data => {
+        if (data.errorCode) {
+            throw new Error(data.message);
+        }
         if (data.matches.length === 0) {
             burnleyResults.innerHTML = '<li>No recent results found.</li>';
             return;
@@ -46,7 +81,7 @@ function fetchBurnleyData() {
     })
     .catch(error => {
         console.error('Error fetching Burnley results:', error);
-        burnleyResults.innerHTML = '<li>Could not fetch results. Please check your API key and network connection.</li>';
+        burnleyResults.innerHTML = `<li>Could not fetch results. Error: ${error.message}. Please check your API key and network connection.</li>`;
     });
 
     // Fetch next 5 matches
@@ -57,6 +92,9 @@ function fetchBurnleyData() {
     })
     .then(response => response.json())
     .then(data => {
+        if (data.errorCode) {
+            throw new Error(data.message);
+        }
         if (data.matches.length === 0) {
             burnleyMatches.innerHTML = '<li>No upcoming matches found.</li>';
             return;
@@ -69,7 +107,7 @@ function fetchBurnleyData() {
     })
     .catch(error => {
         console.error('Error fetching Burnley matches:', error);
-        burnleyMatches.innerHTML = '<li>Could not fetch matches. Please check your API key and network connection.</li>';
+        burnleyMatches.innerHTML = `<li>Could not fetch matches. Error: ${error.message}. Please check your API key and network connection.</li>`;
     });
 
     // Fetch Premier League table
@@ -80,6 +118,9 @@ function fetchBurnleyData() {
     })
     .then(response => response.json())
     .then(data => {
+        if (data.errorCode) {
+            throw new Error(data.message);
+        }
         if (!data.standings || data.standings.length === 0) {
             premierLeagueTable.innerHTML = '<tr><td>Could not fetch Premier League table.</td></tr>';
             return;
@@ -104,7 +145,7 @@ function fetchBurnleyData() {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${row.position}</td>
-                <td>${row.team.name}</td>
+                <td><img src="${row.team.crest}" alt="${row.team.name}" class="team-crest"> ${row.team.name}</td>
                 <td>${row.playedGames}</td>
                 <td>${row.won}</td>
                 <td>${row.draw}</td>
@@ -117,8 +158,10 @@ function fetchBurnleyData() {
     })
     .catch(error => {
         console.error('Error fetching Premier League table:', error);
-        premierLeagueTable.innerHTML = '<tr><td>Could not fetch Premier League table. Please check your API key and network connection.</td></tr>';
+        premierLeagueTable.innerHTML = `<tr><td colspan="7">Could not fetch Premier League table. Error: ${error.message}. Please check your API key and network connection.</td></tr>`;
     });
 }
 
+// Initial setup
+loadApiKey();
 fetchBurnleyData();

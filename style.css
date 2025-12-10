@@ -63,3 +63,27 @@
   background-color: #f6f6f6;
   padding: 12px;
 }
+
+.team-crest {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+@media screen and (max-width: 600px) {
+    .tab button {
+        width: 100%;
+        float: none;
+        display: block;
+        text-align: left;
+    }
+    #premier-league-table th, #premier-league-table td {
+        padding: 4px;
+        font-size: 12px;
+    }
+    .team-crest {
+        width: 16px;
+        height: 16px;
+    }
+}

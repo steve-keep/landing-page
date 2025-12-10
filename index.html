@@ -9,6 +9,7 @@
 <body>
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'burnley')" id="defaultOpen">Burnley FC</button>
+        <button class="tablinks" onclick="openTab(event, 'settings')">Settings</button>
     </div>
 
     <div id="burnley" class="tabcontent">
@@ -21,6 +22,13 @@
             <h4>Premier League Table</h4>
             <table id="premier-league-table"></table>
         </div>
+    </div>
+
+    <div id="settings" class="tabcontent">
+        <h3>Settings</h3>
+        <label for="api-key">API Key:</label>
+        <input type="text" id="api-key" name="api-key">
+        <button id="save-api-key">Save</button>
     </div>
 
     <script src="script.js"></script>
