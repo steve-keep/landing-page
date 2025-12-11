@@ -52,13 +52,20 @@ function loadSettings() {
 
 saveSettingsButton.addEventListener('click', saveSettings);
 
+function ensureHttps(url) {
+    if (!url.startsWith('https://') && !url.startsWith('http://')) {
+        return 'https://' + url;
+    }
+    return url;
+}
+
 function fetchBurnleyData() {
-    const { apiKey, workerUrl } = getSettings();
+    let { apiKey, workerUrl } = getSettings();
     if (!apiKey) {
         const errorMessage = '<li>Please add your API key in the Settings tab.</li>';
         burnleyResults.innerHTML = errorMessage;
         burnleyMatches.innerHTML = errorMessage;
-        premierLeagueTable.innerHTML = `<tr><td>${errorMessage}</td></tr>`;
+        premierLeagueTable.innerHTML = `<tr><td colspan="7">${errorMessage}</td></tr>`;
         return;
     }
 
@@ -66,9 +73,12 @@ function fetchBurnleyData() {
         const errorMessage = '<li>Please add your Cloudflare Worker URL in the Settings tab.</li>';
         burnleyResults.innerHTML = errorMessage;
         burnleyMatches.innerHTML = errorMessage;
-        premierLeagueTable.innerHTML = `<tr><td>${errorMessage}</td></tr>`;
+        premierLeagueTable.innerHTML = `<tr><td colspan="7">${errorMessage}</td></tr>`;
         return;
     }
+
+    // Ensure the workerUrl has a protocol
+    workerUrl = ensureHttps(workerUrl);
 
     // Clear previous data/errors
     burnleyResults.innerHTML = '';
@@ -143,35 +153,35 @@ function fetchBurnleyData() {
             return;
         }
         const table = data.standings[0].table;
-        const thead = document.createElement('thead');
-        thead.innerHTML = `
-            <tr>
-                <th>Position</th>
-                <th>Team</th>
-                <th>Played</th>
-                <th>Won</th>
-                <th>Drawn</th>
-                <th>Lost</th>
-                <th>Points</th>
-            </tr>
+        let tableHtml = `
+            <thead>
+                <tr>
+                    <th>Position</th>
+                    <th>Team</th>
+                    <th>Played</th>
+                    <th>Won</th>
+                    <th>Drawn</th>
+                    <th>Lost</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody>
         `;
-        premierLeagueTable.appendChild(thead);
-
-        const tbody = document.createElement('tbody');
         table.forEach(row => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${row.position}</td>
-                <td><img src="${row.team.crest}" alt="${row.team.name}" class="team-crest"> ${row.team.name}</td>
-                <td>${row.playedGames}</td>
-                <td>${row.won}</td>
-                <td>${row.draw}</td>
-                <td>${row.lost}</td>
-                <td>${row.points}</td>
+            tableHtml += `
+                <tr>
+                    <td>${row.position}</td>
+                    <td><img src="${row.team.crest}" alt="${row.team.name}" class="team-crest"> ${row.team.name}</td>
+                    <td>${row.playedGames}</td>
+                    <td>${row.won}</td>
+                    <td>${row.draw}</td>
+                    <td>${row.lost}</td>
+                    <td>${row.points}</td>
+                </tr>
             `;
-            tbody.appendChild(tr);
         });
-        premierLeagueTable.appendChild(tbody);
+        tableHtml += '</tbody>';
+        premierLeagueTable.innerHTML = tableHtml;
     })
     .catch(error => {
         console.error('Error fetching Premier League table:', error);
