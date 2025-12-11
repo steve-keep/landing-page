@@ -4,6 +4,7 @@ import {
   fetchBurnleyMatches,
   fetchPremierLeagueTable,
 } from '../services/footballApi';
+import Spinner from './Spinner';
 
 function Burnley() {
   const [results, setResults] = useState([]);
@@ -36,7 +37,7 @@ function Burnley() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
 
   if (error) {
