@@ -52,6 +52,32 @@ This project requires a Cloudflare Worker to act as a proxy. This is necessary t
     *   Paste your `football-data.org` API key into the "API Key" input field.
     *   Click "Save Settings". The application is now configured.
 
+### Automated Worker Deployment with GitHub Actions
+
+This repository includes a GitHub Action workflow to automatically deploy your Cloudflare Worker whenever you push changes to the `main` branch. To enable this, you need to add your Cloudflare credentials as secrets to your GitHub repository.
+
+1.  **Get Your Cloudflare Account ID:**
+    *   Go to the Cloudflare dashboard.
+    *   On the right-hand side, under "Account ID," click to copy your Account ID.
+
+2.  **Create a Cloudflare API Token:**
+    *   In the Cloudflare dashboard, go to "My Profile" -> "API Tokens".
+    *   Click "Create Token" and use the "Edit Cloudflare Workers" template.
+    *   Under "Account Resources," select your account.
+    *   Under "Zone Resources," select "All zones".
+    *   Continue to summary and create the token. Copy the generated token.
+
+3.  **Add GitHub Secrets:**
+    *   In your GitHub repository, go to "Settings" -> "Secrets and variables" -> "Actions".
+    *   Click "New repository secret".
+    *   Create a secret named `CF_ACCOUNT_ID` and paste your Account ID as the value.
+    *   Create another secret named `CF_API_TOKEN` and paste your API token as the value.
+
+4.  **Check Worker Name:**
+    *   The GitHub Action assumes your worker is named `burnley-api-proxy`. If you named it something else, you must update the `name` property in the `.github/workflows/deploy-worker.yml` file to match.
+
+Now, every time you merge changes to your `main` branch, the action will automatically update and deploy your Cloudflare Worker.
+
 ## Deployment to GitHub Pages
 
 You can easily host this landing page for free using GitHub Pages.
