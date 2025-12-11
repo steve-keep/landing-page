@@ -228,6 +228,10 @@ button#save-settings:hover {
         -webkit-overflow-scrolling: touch;
     }
 
+    #premier-league-table {
+        width: auto;
+    }
+
     #premier-league-table th, #premier-league-table td {
         padding: 10px 12px;
         font-size: 14px;
