@@ -87,11 +87,11 @@ Now, every time you merge changes to your `main` branch, the action will automat
 
 ## Deployment to GitHub Pages
 
-You can easily host this landing page for free using GitHub Pages.
+This repository is configured with a GitHub Action that automatically builds and deploys the application to GitHub Pages.
 
 1.  **Update `package.json`:**
-    *   Open your `package.json` file and add a `homepage` field: `"homepage": "https://your-username.github.io/your-repository-name/"`
+    *   Before the deployment can succeed, you must open your `package.json` file and set the `homepage` field to your GitHub Pages URL (e.g., `"homepage": "https://your-username.github.io/your-repository-name/"`).
 
-2.  **Deploy:**
-    *   Run `npm run build` to create a production build of the app.
-    *   You can then deploy the `build` folder to your GitHub Pages site. A common way to do this is with the `gh-pages` package.
+2.  **Push to `main`:**
+    *   Once you have configured the `homepage`, simply push your changes to the `main` branch.
+    *   The GitHub Action will automatically run, build the application, and deploy the contents of the `build` directory to the `gh-pages` branch, making your site live.
