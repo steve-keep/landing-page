@@ -16,5 +16,3 @@ jobs:
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          entryPoint: worker.js
-          name: burnley-api-proxy # This should be the name of your worker
