@@ -1,12 +1,14 @@
-# Burnley FC Landing Page
+# Burnley FC Landing Page (React Version)
 
-This is a simple landing page that displays the last 5 results, next 5 matches, and the current Premier League table for Burnley FC.
+This is a simple landing page, now built with React, that displays the last 5 results, next 5 matches, and the current Premier League table for Burnley FC.
 
 ## Features
 
+-   **React Components:** The application is now built with a modern, component-based architecture.
 -   **Burnley FC Tab:** Shows the latest match data for Burnley FC.
--   **Settings Tab:** Allows you to enter and save your football-data.org API key.
--   **Local Storage:** Your API key is saved in your browser's local storage for convenience.
+-   **Settings Tab:** Allows you to enter and save your football-data.org API key and Cloudflare Worker URL.
+-   **Local Storage:** Your settings are saved in your browser's local storage for convenience.
+-   **PWA Enabled:** The application is a Progressive Web App and can be installed on your device for an app-like experience.
 -   **Responsive Design:** The page is designed to work well on both desktop and mobile devices.
 
 ## Setup
@@ -14,14 +16,19 @@ This is a simple landing page that displays the last 5 results, next 5 matches, 
 1.  **Get an API Key:**
     *   Go to [https://www.football-data.org/](https://www.football-data.org/) and register for a free API key.
 
-2.  **Run the Application:**
-    *   This is a static website, but to avoid potential browser security issues with API requests from local files, you should serve it from a local web server.
-    *   If you have Python installed, you can easily do this by running the following command in the project's root directory: `python -m http.server`
-    *   Then, open your browser and go to `http://localhost:8000`.
+2.  **Cloudflare Worker Setup:**
+    *   This project requires a Cloudflare Worker to act as a proxy. Follow the instructions in the "Cloudflare Worker Setup" section below.
 
-3.  **Add Your API Key:**
+3.  **Install Dependencies:**
+    *   Clone the repository and run `npm install` to install the required packages.
+
+4.  **Run the Application:**
+    *   Run `npm start` to start the development server.
+    *   Open your browser and go to `http://localhost:3000`.
+
+5.  **Add Your Settings:**
     *   Once the page is loaded, go to the "Settings" tab.
-    *   Paste your API key into the input field and click "Save".
+    *   Paste your Cloudflare Worker URL and your API key into the input fields and click "Save".
 
 ## Cloudflare Worker Setup (Required)
 
@@ -46,7 +53,7 @@ This project requires a Cloudflare Worker to act as a proxy. This is necessary t
     *   After deploying, go back to the worker's detail page. The URL for your worker will be displayed at the top (e.g., `https://burnley-api-proxy.your-subdomain.workers.dev`).
 
 5.  **Configure the Frontend:**
-    *   Open the application in your browser (either by running the local server or on your GitHub Pages site).
+    *   Open the application in your browser at `http://localhost:3000`.
     *   Go to the "Settings" tab.
     *   Paste the URL of your deployed Cloudflare Worker into the "Cloudflare Worker URL" input field.
     *   Paste your `football-data.org` API key into the "API Key" input field.
@@ -74,7 +81,7 @@ This repository includes a GitHub Action workflow to automatically deploy your C
     *   Create another secret named `CF_API_TOKEN` and paste your API token as the value.
 
 4.  **Check Worker Name:**
-    *   The GitHub Action assumes your worker is named `burnley-api-proxy`. If you named it something else, you must update the `name` property in the `.github/workflows/deploy-worker.yml` file to match.
+    *   The GitHub Action assumes your worker is named `burnley-api-proxy`. If you named it something else, you must update the `name` property in the `wrangler.toml` file to match.
 
 Now, every time you merge changes to your `main` branch, the action will automatically update and deploy your Cloudflare Worker.
 
@@ -82,17 +89,9 @@ Now, every time you merge changes to your `main` branch, the action will automat
 
 You can easily host this landing page for free using GitHub Pages.
 
-1.  **Create a GitHub Repository:**
-    *   Create a new public repository on GitHub.
+1.  **Update `package.json`:**
+    *   Open your `package.json` file and add a `homepage` field: `"homepage": "https://your-username.github.io/your-repository-name/"`
 
-2.  **Upload the Files:**
-    *   Upload the `index.html`, `style.css`, and `script.js` files to your new repository.
-
-3.  **Enable GitHub Pages:**
-    *   In your repository's settings, go to the "Pages" section.
-    *   Under "Source," select the `main` branch (or whichever branch you uploaded the files to).
-    *   Click "Save".
-
-4.  **View Your Site:**
-    *   GitHub will provide you with a URL for your live site (e.g., `https://your-username.github.io/your-repository-name/`). It may take a few minutes for the site to become available.
-    *   Once deployed, you can add the final URL to this README for easy access. Your live site URL will be: [https://your-username.github.io/your-repository-name/](https://your-username.github.io/your-repository-name/)
+2.  **Deploy:**
+    *   Run `npm run build` to create a production build of the app.
+    *   You can then deploy the `build` folder to your GitHub Pages site. A common way to do this is with the `gh-pages` package.
