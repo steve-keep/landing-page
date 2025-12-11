@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Settings() {
+function Settings({ onSave }) {
   const [workerUrl, setWorkerUrl] = useState('');
   const [apiKey, setApiKey] = useState('');
 
@@ -20,6 +20,9 @@ function Settings() {
     localStorage.setItem('workerUrl', workerUrl);
     localStorage.setItem('apiKey', apiKey);
     alert('Settings saved!');
+    if (onSave) {
+      onSave();
+    }
   };
 
   return (
