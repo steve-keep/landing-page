@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Landing Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'burnley')" id="defaultOpen">Burnley FC</button>
-        <button class="tablinks" onclick="openTab(event, 'settings')">Settings</button>
-    </div>
+    <div class="container">
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'burnley')" id="defaultOpen">Burnley FC</button>
+            <button class="tablinks" onclick="openTab(event, 'settings')">Settings</button>
+        </div>
 
-    <div id="burnley" class="tabcontent">
+        <div id="burnley" class="tabcontent">
         <h3>Burnley FC</h3>
         <div id="burnley-data">
             <h4>Last 5 Results</h4>
@@ -36,6 +38,7 @@
             <input type="text" id="api-key" name="api-key">
         </div>
         <button id="save-settings">Save Settings</button>
+    </div>
     </div>
 
     <script src="script.js"></script>
