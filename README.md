@@ -90,7 +90,7 @@ Now, every time you merge changes to your `main` branch, the action will automat
 This repository is configured with a GitHub Action that automatically builds and deploys the application to GitHub Pages.
 
 1.  **Update `package.json`:**
-    *   Before the deployment can succeed, you must open your `package.json` file and set the `homepage` field to your GitHub Pages URL (e.g., `"homepage": "https://your-username.github.io/your-repository-name/"`).
+    *   The `package.json` file's `homepage` field should be set to your GitHub Pages URL. This has been set to `"https://steve-keep.github.io/landing-page/"` for this repository.
 
 2.  **Push to `main`:**
     *   Once you have configured the `homepage`, simply push your changes to the `main` branch.
