@@ -45,11 +45,12 @@ This project requires a Cloudflare Worker to act as a proxy. This is necessary t
 4.  **Get Your Worker URL:**
     *   After deploying, go back to the worker's detail page. The URL for your worker will be displayed at the top (e.g., `https://burnley-api-proxy.your-subdomain.workers.dev`).
 
-5.  **Update the Frontend Code:**
-    *   Open the `script.js` file.
-    *   Find the line `const WORKER_URL = 'YOUR_WORKER_URL';`.
-    *   Replace `'YOUR_WORKER_URL'` with the actual URL of your deployed Cloudflare Worker.
-    *   Save the `script.js` file.
+5.  **Configure the Frontend:**
+    *   Open the application in your browser (either by running the local server or on your GitHub Pages site).
+    *   Go to the "Settings" tab.
+    *   Paste the URL of your deployed Cloudflare Worker into the "Cloudflare Worker URL" input field.
+    *   Paste your `football-data.org` API key into the "API Key" input field.
+    *   Click "Save Settings". The application is now configured.
 
 ## Deployment to GitHub Pages
 

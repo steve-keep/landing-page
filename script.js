@@ -15,40 +15,46 @@ function openTab(evt, tabName) {
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
 
-// IMPORTANT: Replace with your actual Cloudflare Worker URL
-const WORKER_URL = 'YOUR_WORKER_URL';
-
 const BURNLEY_ID = 328;
 
 const burnleyResults = document.getElementById('burnley-results');
 const burnleyMatches = document.getElementById('burnley-matches');
 const premierLeagueTable = document.getElementById('premier-league-table');
+const workerUrlInput = document.getElementById('worker-url');
 const apiKeyInput = document.getElementById('api-key');
-const saveApiKeyButton = document.getElementById('save-api-key');
+const saveSettingsButton = document.getElementById('save-settings');
 
-function getApiKey() {
-  return localStorage.getItem('apiKey');
+function getSettings() {
+  return {
+    apiKey: localStorage.getItem('apiKey'),
+    workerUrl: localStorage.getItem('workerUrl')
+  };
 }
 
-function saveApiKey() {
+function saveSettings() {
   const apiKey = apiKeyInput.value;
+  const workerUrl = workerUrlInput.value;
   localStorage.setItem('apiKey', apiKey);
-  alert('API Key saved!');
-  fetchBurnleyData(); // Refresh data after saving new key
+  localStorage.setItem('workerUrl', workerUrl);
+  alert('Settings saved!');
+  fetchBurnleyData(); // Refresh data after saving new settings
 }
 
-function loadApiKey() {
-    const savedKey = getApiKey();
-    if (savedKey) {
-        apiKeyInput.value = savedKey;
+function loadSettings() {
+    const { apiKey, workerUrl } = getSettings();
+    if (apiKey) {
+        apiKeyInput.value = apiKey;
+    }
+    if (workerUrl) {
+        workerUrlInput.value = workerUrl;
     }
 }
 
-saveApiKeyButton.addEventListener('click', saveApiKey);
+saveSettingsButton.addEventListener('click', saveSettings);
 
 function fetchBurnleyData() {
-    const API_KEY = getApiKey();
-    if (!API_KEY) {
+    const { apiKey, workerUrl } = getSettings();
+    if (!apiKey) {
         const errorMessage = '<li>Please add your API key in the Settings tab.</li>';
         burnleyResults.innerHTML = errorMessage;
         burnleyMatches.innerHTML = errorMessage;
@@ -56,8 +62,8 @@ function fetchBurnleyData() {
         return;
     }
 
-    if (!WORKER_URL || WORKER_URL === 'YOUR_WORKER_URL') {
-        const errorMessage = '<li>Please set your Cloudflare Worker URL in the script.js file.</li>';
+    if (!workerUrl) {
+        const errorMessage = '<li>Please add your Cloudflare Worker URL in the Settings tab.</li>';
         burnleyResults.innerHTML = errorMessage;
         burnleyMatches.innerHTML = errorMessage;
         premierLeagueTable.innerHTML = `<tr><td>${errorMessage}</td></tr>`;
@@ -70,9 +76,9 @@ function fetchBurnleyData() {
     premierLeagueTable.innerHTML = '';
 
     // Fetch last 5 results
-    fetch(`${WORKER_URL}/v4/teams/${BURNLEY_ID}/matches?status=FINISHED&limit=5`, {
+    fetch(`${workerUrl}/v4/teams/${BURNLEY_ID}/matches?status=FINISHED&limit=5`, {
         headers: {
-            'X-Api-Key': API_KEY
+            'X-Api-Key': apiKey
         }
     })
     .then(response => response.json())
@@ -92,13 +98,13 @@ function fetchBurnleyData() {
     })
     .catch(error => {
         console.error('Error fetching Burnley results:', error);
-        burnleyResults.innerHTML = `<li>Could not fetch results. Error: ${error.message}. Please check your API key and network connection.</li>`;
+        burnleyResults.innerHTML = `<li>Could not fetch results. Error: ${error.message}. Please check your settings and network connection.</li>`;
     });
 
     // Fetch next 5 matches
-    fetch(`${WORKER_URL}/v4/teams/${BURNLEY_ID}/matches?status=SCHEDULED&limit=5`, {
+    fetch(`${workerUrl}/v4/teams/${BURNLEY_ID}/matches?status=SCHEDULED&limit=5`, {
         headers: {
-            'X-Api-Key': API_KEY
+            'X-Api-Key': apiKey
         }
     })
     .then(response => response.json())
@@ -118,13 +124,13 @@ function fetchBurnleyData() {
     })
     .catch(error => {
         console.error('Error fetching Burnley matches:', error);
-        burnleyMatches.innerHTML = `<li>Could not fetch matches. Error: ${error.message}. Please check your API key and network connection.</li>`;
+        burnleyMatches.innerHTML = `<li>Could not fetch matches. Error: ${error.message}. Please check your settings and network connection.</li>`;
     });
 
     // Fetch Premier League table
-    fetch(`${WORKER_URL}/v4/competitions/PL/standings`, {
+    fetch(`${workerUrl}/v4/competitions/PL/standings`, {
         headers: {
-            'X-Api-Key': API_KEY
+            'X-Api-Key': apiKey
         }
     })
     .then(response => response.json())
@@ -169,10 +175,10 @@ function fetchBurnleyData() {
     })
     .catch(error => {
         console.error('Error fetching Premier League table:', error);
-        premierLeagueTable.innerHTML = `<tr><td colspan="7">Could not fetch Premier League table. Error: ${error.message}. Please check your API key and network connection.</td></tr>`;
+        premierLeagueTable.innerHTML = `<tr><td colspan="7">Could not fetch Premier League table. Error: ${error.message}. Please check your settings and network connection.</td></tr>`;
     });
 }
 
 // Initial setup
-loadApiKey();
+loadSettings();
 fetchBurnleyData();

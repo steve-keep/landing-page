@@ -67,6 +67,21 @@
 .team-crest {
     width: 20px;
     height: 20px;
+}
+
+.setting-item {
+    margin-bottom: 15px;
+}
+
+.setting-item label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.setting-item input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
     margin-right: 5px;
     vertical-align: middle;
 }

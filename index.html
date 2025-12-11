@@ -27,9 +27,15 @@
     <div id="settings" class="tabcontent">
         <h3>Settings</h3>
         <p>To get your free API key, please register on the <a href="https://www.football-data.org/" target="_blank" rel="noopener noreferrer">football-data.org</a> website.</p>
-        <label for="api-key">API Key:</label>
-        <input type="text" id="api-key" name="api-key">
-        <button id="save-api-key">Save</button>
+        <div class="setting-item">
+            <label for="worker-url">Cloudflare Worker URL:</label>
+            <input type="text" id="worker-url" name="worker-url">
+        </div>
+        <div class="setting-item">
+            <label for="api-key">API Key:</label>
+            <input type="text" id="api-key" name="api-key">
+        </div>
+        <button id="save-settings">Save Settings</button>
     </div>
 
     <script src="script.js"></script>
