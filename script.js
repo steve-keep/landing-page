@@ -15,6 +15,9 @@ function openTab(evt, tabName) {
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("defaultOpen").click();
 
+// IMPORTANT: Replace with your actual Cloudflare Worker URL
+const WORKER_URL = 'YOUR_WORKER_URL';
+
 const BURNLEY_ID = 328;
 
 const burnleyResults = document.getElementById('burnley-results');
@@ -53,15 +56,23 @@ function fetchBurnleyData() {
         return;
     }
 
+    if (!WORKER_URL || WORKER_URL === 'YOUR_WORKER_URL') {
+        const errorMessage = '<li>Please set your Cloudflare Worker URL in the script.js file.</li>';
+        burnleyResults.innerHTML = errorMessage;
+        burnleyMatches.innerHTML = errorMessage;
+        premierLeagueTable.innerHTML = `<tr><td>${errorMessage}</td></tr>`;
+        return;
+    }
+
     // Clear previous data/errors
     burnleyResults.innerHTML = '';
     burnleyMatches.innerHTML = '';
     premierLeagueTable.innerHTML = '';
 
     // Fetch last 5 results
-    fetch(`https://api.football-data.org/v4/teams/${BURNLEY_ID}/matches?status=FINISHED&limit=5`, {
+    fetch(`${WORKER_URL}/v4/teams/${BURNLEY_ID}/matches?status=FINISHED&limit=5`, {
         headers: {
-            'X-Auth-Token': API_KEY
+            'X-Api-Key': API_KEY
         }
     })
     .then(response => response.json())
@@ -85,9 +96,9 @@ function fetchBurnleyData() {
     });
 
     // Fetch next 5 matches
-    fetch(`https://api.football-data.org/v4/teams/${BURNLEY_ID}/matches?status=SCHEDULED&limit=5`, {
+    fetch(`${WORKER_URL}/v4/teams/${BURNLEY_ID}/matches?status=SCHEDULED&limit=5`, {
         headers: {
-            'X-Auth-Token': API_KEY
+            'X-Api-Key': API_KEY
         }
     })
     .then(response => response.json())
@@ -111,9 +122,9 @@ function fetchBurnleyData() {
     });
 
     // Fetch Premier League table
-    fetch(`https://api.football-data.org/v4/competitions/PL/standings`, {
+    fetch(`${WORKER_URL}/v4/competitions/PL/standings`, {
         headers: {
-            'X-Auth-Token': API_KEY
+            'X-Api-Key': API_KEY
         }
     })
     .then(response => response.json())

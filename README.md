@@ -23,6 +23,34 @@ This is a simple landing page that displays the last 5 results, next 5 matches, 
     *   Once the page is loaded, go to the "Settings" tab.
     *   Paste your API key into the input field and click "Save".
 
+## Cloudflare Worker Setup (Required)
+
+This project requires a Cloudflare Worker to act as a proxy. This is necessary to securely handle the API key and bypass the domain restrictions of the `football-data.org` API's free tier.
+
+1.  **Create a Cloudflare Account:**
+    *   If you don't have one, sign up for a free Cloudflare account at [https://dash.cloudflare.com/sign-up](https://dash.cloudflare.com/sign-up).
+
+2.  **Create a Worker:**
+    *   From the Cloudflare dashboard, go to the "Workers & Pages" section and click "Create application".
+    *   Select "Create Worker".
+    *   Give your worker a name (e.g., `burnley-api-proxy`) and click "Deploy".
+
+3.  **Configure the Worker:**
+    *   Click "Edit code" to open the worker editor.
+    *   Delete the boilerplate code in the editor.
+    *   Copy the entire content of the `worker.js` file from this repository.
+    *   Paste the copied code into the Cloudflare editor.
+    *   Click "Deploy" to save and deploy your worker script.
+
+4.  **Get Your Worker URL:**
+    *   After deploying, go back to the worker's detail page. The URL for your worker will be displayed at the top (e.g., `https://burnley-api-proxy.your-subdomain.workers.dev`).
+
+5.  **Update the Frontend Code:**
+    *   Open the `script.js` file.
+    *   Find the line `const WORKER_URL = 'YOUR_WORKER_URL';`.
+    *   Replace `'YOUR_WORKER_URL'` with the actual URL of your deployed Cloudflare Worker.
+    *   Save the `script.js` file.
+
 ## Deployment to GitHub Pages
 
 You can easily host this landing page for free using GitHub Pages.
