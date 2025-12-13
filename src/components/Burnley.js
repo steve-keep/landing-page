@@ -67,7 +67,9 @@ function Burnley() {
             matches.map((match) => (
               <li key={match.id}>
                 {match.homeTeam.name} vs {match.awayTeam.name} on{' '}
-                {new Date(match.utcDate).toLocaleString()}
+                {new Date(match.utcDate).toLocaleString('en-AU', {
+                  timeZone: 'Australia/Sydney',
+                })}
               </li>
             ))
           ) : (
